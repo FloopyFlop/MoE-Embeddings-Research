@@ -146,3 +146,16 @@ class EmbeddingModel(nn.Module):
             all_embeddings.append(embeddings.cpu())
 
         return torch.cat(all_embeddings, dim=0)
+
+    def count_parameters(self) -> Dict[str, int]:
+        """
+        Count parameters in the model.
+
+        Returns:
+            Dictionary with parameter counts
+        """
+        total_params = sum(p.numel() for p in self.parameters())
+        return {
+            "total": total_params,
+            "active": total_params  # Dense model uses all parameters
+        }

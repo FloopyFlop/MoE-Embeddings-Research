@@ -65,6 +65,12 @@ class EmbeddingTrainer:
                 # Compute loss (assumes contrastive loss or similar)
                 loss = self.loss_fn(embeddings1, embeddings2)
 
+                # Add auxiliary loss if present (for MoE models)
+                if isinstance(output1, dict) and "aux_loss" in output1 and output1["aux_loss"] is not None:
+                    loss = loss + output1["aux_loss"]
+                if isinstance(output2, dict) and "aux_loss" in output2 and output2["aux_loss"] is not None:
+                    loss = loss + output2["aux_loss"]
+
             elif "input_ids_anchor" in batch:
                 # Triplet-based training
                 output_anchor = self.model(batch["input_ids_anchor"], batch["attention_mask_anchor"])
@@ -76,6 +82,11 @@ class EmbeddingTrainer:
                 emb_negative = output_negative["embeddings"] if isinstance(output_negative, dict) else output_negative
 
                 loss = self.loss_fn(emb_anchor, emb_positive, emb_negative)
+
+                # Add auxiliary loss if present (for MoE models)
+                for output in [output_anchor, output_positive, output_negative]:
+                    if isinstance(output, dict) and "aux_loss" in output and output["aux_loss"] is not None:
+                        loss = loss + output["aux_loss"]
 
             else:
                 raise ValueError("Unknown batch format")
@@ -120,6 +131,12 @@ class EmbeddingTrainer:
 
                 loss = self.loss_fn(embeddings1, embeddings2)
 
+                # Add auxiliary loss if present (for MoE models)
+                if isinstance(output1, dict) and "aux_loss" in output1 and output1["aux_loss"] is not None:
+                    loss = loss + output1["aux_loss"]
+                if isinstance(output2, dict) and "aux_loss" in output2 and output2["aux_loss"] is not None:
+                    loss = loss + output2["aux_loss"]
+
             elif "input_ids_anchor" in batch:
                 output_anchor = self.model(batch["input_ids_anchor"], batch["attention_mask_anchor"])
                 output_positive = self.model(batch["input_ids_positive"], batch["attention_mask_positive"])
@@ -130,6 +147,11 @@ class EmbeddingTrainer:
                 emb_negative = output_negative["embeddings"] if isinstance(output_negative, dict) else output_negative
 
                 loss = self.loss_fn(emb_anchor, emb_positive, emb_negative)
+
+                # Add auxiliary loss if present (for MoE models)
+                for output in [output_anchor, output_positive, output_negative]:
+                    if isinstance(output, dict) and "aux_loss" in output and output["aux_loss"] is not None:
+                        loss = loss + output["aux_loss"]
 
             else:
                 raise ValueError("Unknown batch format")
