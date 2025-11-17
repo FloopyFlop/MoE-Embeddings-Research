@@ -350,49 +350,8 @@ If you use this code for research, please cite:
 ```bibtex
 @software{moe_embeddings_research,
   title = {Language Embeddings Model with MoE Architecture},
-  author = {Your Name},
+  author = {Arjun Mulchandani},
   year = {2025},
-  url = {https://github.com/yourusername/MoE-Embeddings-Research}
+  url = {https://github.com/FloopyFlop/MoE-Embeddings-Research}
 }
 ```
-
-## License
-
-MIT License - see LICENSE file for details
-
-## Contributing
-
-Contributions are welcome! Areas for improvement:
-- Better tokenization (BPE, WordPiece)
-- More pooling strategies
-- Additional loss functions
-- MoE implementation
-- Pre-training on large corpora
-- Multi-task learning
-
-## Troubleshooting
-
-### Issue: Out of memory
-- Reduce batch size
-- Reduce model size (hidden_dim, num_layers)
-- Use gradient accumulation
-
-### Issue: Poor similarity scores
-- Train for more epochs
-- Increase batch size (more negatives)
-- Use better quality training data
-- Adjust temperature parameter
-
-### Issue: Model not learning
-- Check learning rate (try 1e-3 to 1e-4)
-- Verify loss is decreasing
-- Ensure data has positive pairs
-- Check gradient flow
-
-## Contact
-
-For questions or issues, please open a GitHub issue or contact [your email].
-
----
-
-**Happy embedding!** 🚀
